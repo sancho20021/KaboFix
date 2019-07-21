@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <meta charset="UTF-8">
@@ -20,25 +21,29 @@
     <nav aria-label="...">
         <ul class="pagination">
             <li class="page-item {% if status == 'my' %} active {%endif%}"><a class="page-link" href="/">Мои</a></li>
-            <li class="page-item {% if status == 'all' %} active {%endif%}"><a class="page-link" href="/all">Все</a></li>
-            <li class="page-item {% if status == 'archive' %} active {%endif%}"><a class="page-link" href="/archive">Архив</a></li>
+            <li class="page-item {% if status == 'all' %} active {%endif%}"><a class="page-link" href="/all">Все</a>
+            </li>
+            <li class="page-item {% if status == 'archive' %} active {%endif%}"><a class="page-link" href="/archive">Архив</a>
+            </li>
             <li class="page-item">
-                 <a class="page-link" href="/logout">Выход</a>
+                <a class="page-link" href="/logout">Выход</a>
             </li>
         </ul>
     </nav>
     {% for claim in claims %}
-    <div class="card" style="width: 28rem;">
+    <div class="card" style="width: 35rem;">
         <div class="card-body">
-            <h5 class="card-title">{{claim.name}}</h5>
+            {% load static %}
+            <h5 class="card-title">{{claim.name}} <a href="/addLike/{{claim.id}}/{{status}}"><img
+                    src="{% static 'app/oklike.jpg' %}" alt="Класс" width="37px">{{claim.countLikes}} Класс</a></h5>
             <h6 class="card-subtitle mb-2 text-muted">{{claim.user.username}}, {{claim.house}} комната</h6>
             <p class="card-text">{{claim.text}}</p>
             {% if claim.status != 'new' %}
-                <h6 class="card-subtitle mb-2 text-muted">Статус: {{ statusRus|lookup:claim.status }}. Ответственный:
-                    {{claim.moder}}</h6>
-                {%endif%}
+            <h6 class="card-subtitle mb-2 text-muted">Статус: {{ statusRus|lookup:claim.status }}. Ответственный:
+                {{claim.moder}}</h6>
+            {%endif%}
             {% if claim.status == 'new' %}
-                <h6 class="card-subtitle mb-2 text-muted">Статус: {{ statusRus|lookup:claim.status }} </h6>
+            <h6 class="card-subtitle mb-2 text-muted">Статус: {{ statusRus|lookup:claim.status }}</h6>
             {%endif%}
         </div>
     </div>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <meta charset="UTF-8">
@@ -34,7 +35,7 @@
     {% for claim in claims %}
     <form method="POST">
         {% csrf_token %}
-        <div class="card" style="width: 28rem;">
+        <div class="card" style="width: 35rem;">
             <div class="card-body">
                 <h5 class="card-title">{{claim.name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{claim.user.username}}, {{claim.house}} комната</h6>

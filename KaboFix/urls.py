@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from app.views import loginPage, register, logout_page, makeClaim, indexAll, indexMy, indexModerNew, \
-    indexModerProcessed, indexModerFinished, indexModerAll, indexArchive
+    indexModerProcessed, indexModerFinished, indexModerAll, indexArchive, addLike
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,4 +32,5 @@ urlpatterns = [
     path('register', register),
     path('logout', logout_page),
     path('makeClaim', makeClaim),
+    path('addLike/<int:claimId>/<str:status>', addLike),
 ]

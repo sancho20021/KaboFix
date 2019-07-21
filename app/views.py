@@ -15,6 +15,14 @@ def lookup(value, arg):
     return value[arg]
 
 
+def addLike(request, claimId, status):
+    Claim.objects.get(pk=claimId).likes.add(request.user)
+    if status == 'my':
+        return redirect('/')
+    else:
+        return redirect('/'+status)
+
+
 def indexRender(request, status):
     if request.user.is_authenticated:
         if request.user.groups.filter(name='moders').exists():
@@ -32,7 +40,8 @@ def indexRender(request, status):
             statusRus['processed'] = 'В работе'
             statusRus['finished'] = 'Выполнена'
             return render(request, "index.html",
-                          {'claims': claims, 'username': request.user.username, 'statusRus': statusRus, 'status': status})
+                          {'claims': claims, 'username': request.user.username, 'statusRus': statusRus,
+                           'status': status})
         if request.method == 'POST':
             return redirect('/makeClaim')
     else:
