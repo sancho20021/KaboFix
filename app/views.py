@@ -15,21 +15,24 @@ def lookup(value, arg):
     return value[arg]
 
 
-def indexRender(request, isAll):
+def indexRender(request, status):
     if request.user.is_authenticated:
         if request.user.groups.filter(name='moders').exists():
             return redirect('/new')
         if request.method == 'GET':
-            if isAll:
-                claims = Claim.objects.all()
-            else:
-                claims = Claim.objects.filter(user=request.user)
+            claims = Claim.objects.all()
+            if status == 'all':
+                claims = Claim.objects.exclude(status='finished')
+            if status == 'my':
+                claims = Claim.objects.filter(user=request.user).exclude(status='finished')
+            if status == 'archive':
+                claims = Claim.objects.filter(status='finished')
             statusRus = dict()
             statusRus['new'] = 'На рассмотрении'
             statusRus['processed'] = 'В работе'
             statusRus['finished'] = 'Выполнена'
             return render(request, "index.html",
-                          {'claims': claims, 'username': request.user.username, 'statusRus': statusRus, 'isAll': isAll})
+                          {'claims': claims, 'username': request.user.username, 'statusRus': statusRus, 'status': status})
         if request.method == 'POST':
             return redirect('/makeClaim')
     else:
@@ -37,11 +40,15 @@ def indexRender(request, isAll):
 
 
 def indexMy(request):
-    return indexRender(request, False)
+    return indexRender(request, 'my')
 
 
 def indexAll(request):
-    return indexRender(request, True)
+    return indexRender(request, 'all')
+
+
+def indexArchive(request):
+    return indexRender(request, 'archive')
 
 
 def indexModerRender(request, status):

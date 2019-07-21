@@ -19,8 +19,9 @@
     </h3>
     <nav aria-label="...">
         <ul class="pagination">
-            <li class="page-item {% if isAll == False %} active {%endif%}"><a class="page-link" href="/">Мои</a></li>
-            <li class="page-item {% if isAll == True %} active {%endif%}"><a class="page-link" href="/all">Все</a></li>
+            <li class="page-item {% if status == 'my' %} active {%endif%}"><a class="page-link" href="/">Мои</a></li>
+            <li class="page-item {% if status == 'all' %} active {%endif%}"><a class="page-link" href="/all">Все</a></li>
+            <li class="page-item {% if status == 'archive' %} active {%endif%}"><a class="page-link" href="/archive">Архив</a></li>
             <li class="page-item">
                  <a class="page-link" href="/logout">Выход</a>
             </li>

@@ -17,12 +17,13 @@ from django.contrib import admin
 from django.urls import path
 
 from app.views import loginPage, register, logout_page, makeClaim, indexAll, indexMy, indexModerNew, \
-    indexModerProcessed, indexModerFinished, indexModerAll
+    indexModerProcessed, indexModerFinished, indexModerAll, indexArchive
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', indexMy),
     path('all', indexAll),
+    path('archive', indexArchive),
     path('new', indexModerNew),
     path('processed', indexModerProcessed),
     path('finished', indexModerFinished),
