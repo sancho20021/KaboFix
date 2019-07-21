@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Заявки</title>
+</head>
+<body>
+
+
+<div class="container">
+    <h1>Добро пожаловать, {{username}}!</h1>
+    <h3>
+        Текущие заявки:
+    </h3>
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item {% if section == 'new' %} active {%endif%}"><a class="page-link" href="/new">Новые</a>
+            </li>
+            <li class="page-item {% if section == 'processed' %} active {%endif%}"><a class="page-link"
+                                                                                      href="/processed">В работе</a>
+            </li>
+            <li class="page-item {% if section == 'finished' %} active {%endif%}"><a class="page-link" href="/finished">Выполненные</a>
+            </li>
+            <li class="page-item {% if section == 'all' %} active {%endif%}"><a class="page-link"
+                                                                                      href="/allModer">Все</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="/logout">Выход</a>
+            </li>
+        </ul>
+    </nav>
+    {% for claim in claims %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="card" style="width: 28rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{claim.name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{claim.user.username}}, {{claim.house}} комната</h6>
+                <p class="card-text">{{claim.text}}</p>
+                {% if claim.status != 'new' %}
+                <h6 class="card-subtitle mb-2 text-muted">Статус: {{ statusRus|lookup:claim.status }}. Ответственный:
+                    {{claim.moder}}</h6>
+                {%endif%}
+                {% if claim.status == 'new' %}
+                    <h6 class="card-subtitle mb-2 text-muted">Статус: {{ statusRus|lookup:claim.status }} </h6>
+                {%endif%}
+                {% if section == 'new' %}
+                <input type="submit" name="take" value="Взять на себя" class="btn btn-primary">
+                {% endif %}
+                {% if section == 'processed' %}
+                <input type="submit" name="finish" value="Завершить выполнение" class="btn btn-success">
+                {% endif %}
+                {% if section == 'finished' %}
+                <input type="submit" name="open" value="Открыть заявку снова" class="btn btn-info">
+                {% endif %}
+                <input type="hidden" name="claimId" value="{{claim.id}}">
+            </div>
+        </div>
+    </form>
+    <p></p>
+    {% endfor %}
+</div>
+</body>
+</html>
